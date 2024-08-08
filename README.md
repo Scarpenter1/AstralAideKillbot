@@ -46,6 +46,18 @@ A list of all entity types provided by zkill:
 The app does not support the `killstream` entity, as it only supports the simplified format.
 
 ## Run
+To set up a venv:
+
+
+```bash
+cd path/to/your/project
+python3 -m venv astralAideKillbot
+source astralAideKillbot/bin/activate
+pip install -r requirements.txt
+deactivate
+```
+
+
 After configuring the application, from the parent directory of the root folder run:
 
 ```bash
