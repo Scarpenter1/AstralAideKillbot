@@ -51,4 +51,4 @@ After configuring the application, from the parent directory of the root folder 
 ```bash
 python3 -m astralAideKillbot.main
 ```
-If the project is stored in `home/user/projects/zkillbot_2`, execute the command from `home/user/projects`.
+If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.
