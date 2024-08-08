@@ -1,6 +1,6 @@
 import aiohttp
 import asyncio
-from astralAideKillbot.config import DELAY
+from .config import DELAY
 import json
 
 async def fetch_data(url):
