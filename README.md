@@ -51,4 +51,6 @@ After configuring the application, from the parent directory of the root folder 
 ```bash
 python3 -m astralAideKillbot.main
 ```
-If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.
+If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.\
+
+This project was created and tested on Linux/Ubuntu and this is the intended environment. Other environments are untested and not currently supported. If you feel like adding this support, feel free to create a pull request.
