@@ -46,7 +46,7 @@ A list of all entity types provided by zkill:
 The app does not support the `killstream` entity, as it only supports the simplified format.
 
 ## Run
-After configuring the application, from the parent directory of the root folder run:
+After configuring the application, from the root folder run:
 
 build
 ```bash
