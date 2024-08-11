@@ -46,11 +46,17 @@ A list of all entity types provided by zkill:
 The app does not support the `killstream` entity, as it only supports the simplified format.
 
 ## Run
-After configuring the application, from the parent directory of the root folder run:
+After configuring the application, from the root folder run:
 
+build
 ```bash
-python3 -m astralAideKillbot.main
+sudo docker build -t astral-aide-killbot .
 ```
-If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.\
 
-This project was created and tested on Linux/Ubuntu and this is the intended environment. Other environments are untested and not currently supported. If you feel like adding this support, feel free to create a pull request.
+run
+```bash
+sudo docker run -it --rm astral-aide-killbot
+```
+<!-- If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.\ -->
+
+<!-- This project was created and tested on Linux/Ubuntu and this is the intended environment. Other environments are untested and not currently supported. If you feel like adding this support, feel free to create a pull request. -->

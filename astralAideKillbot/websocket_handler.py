@@ -1,8 +1,8 @@
 import json
 import websockets
 import asyncio
-from astralAideKillbot.embed_creator import send_killmail_embed
-from astralAideKillbot.config import TARGET_ENTITY, TARGET_ENTITY_ID
+from .embed_creator import send_killmail_embed
+from .config import TARGET_ENTITY, TARGET_ENTITY_ID
 from websockets.exceptions import ConnectionClosedError, ConnectionClosedOK
 
 async def subscribe_to_websocket(bot):

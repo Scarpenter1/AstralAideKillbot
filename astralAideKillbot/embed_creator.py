@@ -1,8 +1,8 @@
 import discord
 from collections import Counter
-from astralAideKillbot.api_request import *
-from astralAideKillbot.config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY
-from astralAideKillbot.utils import format_currency
+from .api_request import *
+from .config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY
+from .utils import format_currency
 
 semaphore = asyncio.Semaphore(5)  # Limit concurrent tasks
 
