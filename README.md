@@ -15,7 +15,6 @@ Configuration is handled in `config.py` via a .env file:
 - `TARGET_ENTITY_ID`: The ID for the entity you're tracking. Example: `https://zkillboard.com/corporation/{id}/`.
 - `TARGET_DISCORD_CHANNEL_ID`: The ID of the channel you wish to emit messages to.
 - `TOKEN`: The token for your bot. See the Discord developer portal to set up a bot and retrieve the key.
-- `DELAY`: 1 is required. Swagger API enforces limits on how often you can request. This delay is the shortest amount of time possible without generating errors.
 
 In the root directory, create a file and name it `.env` and open it in your favorite text editor.\
 Add these 4 variables to the file and fill them out using the above and below information.\
@@ -57,6 +56,3 @@ run
 ```bash
 sudo docker run -it --rm astral-aide-killbot
 ```
-<!-- If the project is stored in `home/user/projects/astralAideKillbot`, execute the command from `home/user/projects`.\ -->
-
-<!-- This project was created and tested on Linux/Ubuntu and this is the intended environment. Other environments are untested and not currently supported. If you feel like adding this support, feel free to create a pull request. -->

@@ -20,7 +20,5 @@ async def on_ready():
     else:
         print(f"Channel with ID {TARGET_DISCORD_CHANNEL_ID} not found")
 
-# Add other commands and event handlers as needed
-
 def run_bot():
     bot.run(TOKEN)
