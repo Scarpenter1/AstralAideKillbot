@@ -23,11 +23,20 @@ async def subscribe_to_websocket(bot):
           await asyncio.create_task(send_killmail_embed(bot, data))  # Pass bot to the embed function
 
     except (ConnectionClosedError, ConnectionClosedOK) as e:
-        print(f"WebSocket connection closed: {e}")
-        print("Attempting to reconnect...")
-        await asyncio.sleep(5)  # Wait for a bit before reconnecting
+      print(f"WebSocket connection closed: {e}")
+      await cleanUpSocket(websocket)
 
     except Exception as e:
-        print(f"An error occurred: {e}")
-        print("Attempting to reconnect...")
-        await asyncio.sleep(5)  # Wait for a bit before reconnecting
+      print(f"An error occurred: {e}")
+      await cleanUpSocket(websocket)
+
+
+
+async def cleanUpSocket(websocket):
+  print("Attempting to reconnect...")
+  try:
+    if not websocket.closed:
+      await websocket.close()
+  except Exception as e:
+    print(f"Error closing websocket: {e}")
+  await asyncio.sleep(5)  # Wait for a bit before reconnecting
