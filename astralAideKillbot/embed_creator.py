@@ -7,7 +7,7 @@ from .utils import format_currency
 semaphore = asyncio.Semaphore(5)  # Limit concurrent tasks
 
 async def send_killmail_embed(bot, killmail):
-    print('handling killmail')
+    print("\n\nhandling killmail")
     print(killmail)
     async with semaphore:
         killmail = await organize_killmail_data(killmail)
@@ -41,7 +41,6 @@ async def send_killmail_embed(bot, killmail):
         )
 
         if victim_name:
-            top_3_kill_names, top_3_loss_names = await get_top_kills_losses(victim['character_id'])
             embed.add_field(name="Pilot", value=victim_name, inline=True)
         if victim_alliance:
             embed.add_field(name="Alliance", value=victim_alliance, inline=True)
@@ -57,11 +56,26 @@ async def send_killmail_embed(bot, killmail):
             embed.add_field(name="Final Blow", value=f"[{final_blow_name}](https://zkillboard.com/character/{final_blow_id})", inline=False)
 
         if victim_name:
+            top_3_kill_names, top_3_loss_names = await get_top_kills_losses(victim['character_id'])
             embed.set_thumbnail(url=f"https://images.evetech.net/characters/{victim['character_id']}/portrait?size=512")
-            embed.add_field(name="Recent Kills", value=top_3_kill_names, inline=False)
-            embed.add_field(name="Recent Losses", value=top_3_loss_names, inline=False)
+
+            if top_3_kill_names:
+                recent_kill_text = ', '.join(
+                    [f"{kill[0]}" 
+                    for kill in top_3_kill_names]
+                )
+                embed.add_field(name="Recent Kills", value=f"[{recent_kill_text}](https://zkillboard.com/character/{victim['character_id']}/kills/)", inline=False)
+
+            if top_3_loss_names:
+                recent_loss_text = ', '.join(
+                    [f"[{loss[0]}](https://zkillboard.com/character/{victim['character_id']}/losses/shipTypeID/{loss[1]}/)" 
+                    for loss in top_3_loss_names]
+                )
+                embed.add_field(name="Recent Losses", value=f"{recent_loss_text}", inline=False)
+
 
         channel = bot.get_channel(TARGET_DISCORD_CHANNEL_ID)
+        
         if channel:
             await channel.send(embed=embed)
         else:
@@ -83,11 +97,13 @@ async def get_top_kills_losses(character_id):
     kills, losses = await get_kill_loss_data(character_id)
     kill_ship_types = [await fetch_killmail_ship_type(kill) for kill in kills]
     loss_ship_types = [await fetch_killmail_ship_type(loss) for loss in losses]
+    
     top_3_kill_ship_types = Counter(kill_ship_types).most_common(3)
     top_3_loss_ship_types = Counter(loss_ship_types).most_common(3)
 
-    top_3_kill_names = ', '.join([f"{await get_ship_type_name(ship_type) or 'N/A'} ({count})" for ship_type, count in top_3_kill_ship_types])
-    top_3_loss_names = ', '.join([f"{await get_ship_type_name(ship_type) or 'N/A'} ({count})" for ship_type, count in top_3_loss_ship_types])
+    top_3_kill_names = [[f"{await get_ship_type_name(ship_type) or 'N/A'} ({count})", ship_type] for ship_type, count in top_3_kill_ship_types]
+    top_3_loss_names = [[f"{await get_ship_type_name(ship_type) or 'N/A'} ({count})", ship_type] for ship_type, count in top_3_loss_ship_types]
+    
     return top_3_kill_names, top_3_loss_names
 
 async def fetch_killmail_ship_type(kill):
