@@ -4,13 +4,14 @@ from .config import DELAY
 import json
 
 async def fetch_data(url):
+    print(f"\tcalling {url}")
     await asyncio.sleep(DELAY)
     async with aiohttp.ClientSession() as session:
         async with session.get(url) as response:
             if response.status == 200:
                 return await response.json()
             else:
-                print(f"Failed to fetch data: HTTP {response.status} {url}")
+                print(f"\t\t\tFailed to fetch data: HTTP {response.status} {url}")
                 return {}
 
 async def get_pilot_by_name(name: str):
