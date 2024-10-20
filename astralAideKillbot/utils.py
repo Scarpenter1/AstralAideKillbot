@@ -11,3 +11,15 @@ def format_currency(value):
       return f"{value:,.2f} ISK"
   except (ValueError, TypeError):
     return 'N/A'
+def log_time(start_time, killmail_id=None):
+  end_time = time.time()
+  elapsed_time = end_time - start_time
+  minutes = int(elapsed_time // 60)
+  seconds = int(elapsed_time % 60)
+  if killmail_id:
+    print(f"{killmail_id}:Completed in: {minutes:02d}:{seconds:02d}")
+  else:
+    print(f"Operation completed in: {minutes:02d}:{seconds:02d}")
+
+def get_current_time():
+  return time.time()
