@@ -11,6 +11,14 @@ def format_currency(value):
       return f"{value:,.2f} ISK"
   except (ValueError, TypeError):
     return 'N/A'
+
+def capitalize_and_replace(text):
+  # Capitalize the first letter of each word
+  capitalized_text = text.title()
+  # Replace spaces with underscores
+  result = capitalized_text.replace(' ', '_')
+  return result
+
 def log_time(start_time, killmail_id=None):
   end_time = time.time()
   elapsed_time = end_time - start_time
