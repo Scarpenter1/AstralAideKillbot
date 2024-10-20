@@ -62,8 +62,8 @@ async def send_killmail_embed(bot, killmail):
             embed.add_field(name="Final Blow", value=f"[{final_blow_name}](https://zkillboard.com/character/{final_blow_id})", inline=False)
 
         if victim_name:
-            top_3_kill_names, top_3_loss_names = await get_top_kills_losses(victim['character_id'])
-            embed.set_thumbnail(url=f"https://images.evetech.net/characters/{victim['character_id']}/portrait?size=512")
+            top_3_kill_names, top_3_loss_names = await get_top_kills_losses(victim.get('character_id'))
+            embed.set_thumbnail(url=f"https://images.evetech.net/characters/{victim.get('character_id')}/portrait?size=512")
 
             if top_3_kill_names:
                 recent_kill_text = ', '.join(
@@ -74,7 +74,7 @@ async def send_killmail_embed(bot, killmail):
 
             if top_3_loss_names:
                 recent_loss_text = ', '.join(
-                    [f"[{loss[0]}](https://zkillboard.com/character/{victim['character_id']}/losses/shipTypeID/{loss[1]}/)" 
+                    [f"[{loss[0]}](https://zkillboard.com/character/{victim.get('character_id')}/losses/shipTypeID/{loss[1]}/)" 
                     for loss in top_3_loss_names]
                 )
                 embed.add_field(name="Recent Losses", value=f"{recent_loss_text}", inline=False)
