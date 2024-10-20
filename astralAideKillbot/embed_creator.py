@@ -24,14 +24,14 @@ async def send_killmail_embed(bot, killmail):
         final_blow_id = next((attacker['character_id'] for attacker in attackers if attacker.get('final_blow') and 'character_id' in attacker), None)
 
         final_blow_name = await get_player_name(final_blow_id) if final_blow_id else None
-        solar_system_name, sec_status = await get_system_name_and_sec_status(killmail['solar_system_id'])
+        solar_system_name, sec_status = await get_system_name_and_sec_status(killmail.get('solar_system_id'))
 
-        victim_name = await get_player_name(victim['character_id']) if 'character_id' in victim else None
-        victim_ship = await get_victim_ship(victim['ship_type_id'])
-        victim_corp = await get_victim_corp(victim['corporation_id'])
-        victim_alliance = await get_victim_alliance(victim['alliance_id']) if 'alliance_id' in victim else None
+        victim_name = await get_player_name(victim.get('character_id')) if 'character_id' in victim else None
+        victim_ship = await get_victim_ship(victim.get('ship_type_id'))
+        victim_corp = await get_victim_corp(victim.get('corporation_id'))
+        victim_alliance = await get_victim_alliance(victim.get('alliance_id')) if 'alliance_id' in victim else None
 
-        killmail_url = f"https://zkillboard.com/kill/{killmail['killmail_id']}/"
+        killmail_url = f"https://zkillboard.com/kill/{killmail.get('killmail_id')}/"
         zkb_data = killmail.get('zkb', {})
         fitted_value = format_currency(zkb_data.get('fittedValue', 0))
         dropped_value = format_currency(zkb_data.get('droppedValue', 0))
@@ -46,17 +46,21 @@ async def send_killmail_embed(bot, killmail):
         )
 
         if victim_name:
-            embed.add_field(name="Pilot", value=victim_name, inline=True)
+            embed.add_field(name="Pilot", value=f"[{victim_name}](https://zkillboard.com/character/{victim.get('character_id')}/)", inline=True)
+
+        embed.add_field(name="Corporation", value=f"[{victim_corp}](https://zkillboard.com/corporation/{victim.get('corporation_id')}/)", inline=True)
+
         if victim_alliance:
-            embed.add_field(name="Alliance", value=victim_alliance, inline=True)
-        embed.add_field(name="Corporation", value=victim_corp, inline=True)
-        embed.add_field(name="Helpful Links", value=f"[evewho](https://evewho.com/character/{victim['character_id']}), [dotlan](https://evemaps.dotlan.net/system/{solar_system_name})", inline=False)
-        embed.add_field(name="Ship", value=victim_ship, inline=False)
-        embed.set_image(url=f"https://images.evetech.net/types/{victim['ship_type_id']}/render?size=128")
+            embed.add_field(name="Alliance", value=f"[{victim_alliance}](https://zkillboard.com/alliance/{victim.get('alliance_id')}/)", inline=True)
+
+        embed.add_field(name="Helpful Links", value=f"[evewho](https://evewho.com/character/{victim.get('character_id')}), [dotlan](https://evemaps.dotlan.net/system/{solar_system_name})", inline=False)
+        embed.add_field(name="Ship", value=f"[{victim_ship}](https://wiki.eveuniversity.org/{capitalize_and_replace(victim_ship)})", inline=False)
+        embed.set_image(url=f"https://images.evetech.net/types/{victim.get('ship_type_id')}/render?size=128")
         embed.add_field(name="Fitted Value", value=fitted_value, inline=True)
         embed.add_field(name="Dropped Value", value=dropped_value, inline=True)
         embed.add_field(name="Destroyed Value", value=destroyed_value, inline=True)
         embed.add_field(name="Total Value", value=total_value, inline=False)
+
         if final_blow_id:
             embed.add_field(name="Final Blow", value=f"[{final_blow_name}](https://zkillboard.com/character/{final_blow_id})", inline=False)
 
@@ -89,10 +93,10 @@ async def send_killmail_embed(bot, killmail):
         log_time(start_time, killmail.get('killmail_id'))
 
 async def organize_killmail_data(killmail):
-    esi_url = f"https://esi.evetech.net/latest/killmails/{killmail['killID']}/{killmail['hash']}/"
+    esi_url = f"https://esi.evetech.net/latest/killmails/{killmail.get('killID')}/{killmail.get('hash')}/"
     esi_data = await fetch_data(esi_url)
 
-    zkill_url = f"https://zkillboard.com/api/killID/{killmail['killID']}/"
+    zkill_url = f"https://zkillboard.com/api/killID/{killmail.get('killID')}/"
     zkill_data = await fetch_data(zkill_url)
 
     if zkill_data and 'zkb' in zkill_data[0]:
