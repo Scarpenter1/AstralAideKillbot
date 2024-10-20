@@ -1,6 +1,4 @@
 import discord
-import time
-import datetime
 from collections import Counter
 from .api_request import *
 from .config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY
@@ -13,7 +11,7 @@ async def send_killmail_embed(bot, killmail):
     print(killmail)
     async with semaphore:
         start_time = get_current_time()
-        human_readable_start_time = datetime.datetime.fromtimestamp(start_time).strftime('%H:%M:%S')
+        human_readable_start_time = get_human_readable_time(start_time)
         print(f"Started killmail {killmail.get('killID')} {human_readable_start_time} UTC")
         killmail = await organize_killmail_data(killmail)
         victim = killmail.get('victim')

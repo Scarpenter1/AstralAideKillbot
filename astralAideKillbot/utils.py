@@ -1,4 +1,5 @@
 import time
+import datetime
 
 def format_currency(value):
   try:
@@ -33,3 +34,6 @@ def log_time(start_time, killmail_id=None):
 
 def get_current_time():
   return time.time()
+
+def get_human_readable_time(start_time):
+  datetime.datetime.fromtimestamp(start_time).strftime('%H:%M:%S')
