@@ -105,9 +105,9 @@ async def get_top_kills_losses(character_id):
 
 async def fetch_killmail_ship_type(kill):
     try:
-        killmail_id = kill['killmail_id']
-        killmail_hash = kill['zkb']['hash']
+        killmail_id = kill.get('killmail_id')
+        killmail_hash = kill.get('zkb', {}).get('hash', None)
         killmail_details = await fetch_killmail_details(killmail_id, killmail_hash)
-        return killmail_details['victim']['ship_type_id']
+        return killmail_details.get('victim', {}).get('ship_type_id', None)
     except (KeyError, TypeError):
         return None
