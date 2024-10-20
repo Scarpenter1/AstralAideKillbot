@@ -4,7 +4,7 @@ import datetime
 from collections import Counter
 from .api_request import *
 from .config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY
-from .utils import format_currency
+from .utils import format_currency, capitalize_and_replace, log_time, get_current_time
 
 semaphore = asyncio.Semaphore(5)  # Limit concurrent tasks
 
@@ -12,6 +12,9 @@ async def send_killmail_embed(bot, killmail):
     print("\n\nhandling killmail")
     print(killmail)
     async with semaphore:
+        start_time = get_current_time()
+        human_readable_start_time = datetime.datetime.fromtimestamp(start_time).strftime('%H:%M:%S')
+        print(f"Started killmail {killmail.get('killID')} {human_readable_start_time} UTC")
         killmail = await organize_killmail_data(killmail)
         victim = killmail.get('victim')
         if not victim:
@@ -82,6 +85,8 @@ async def send_killmail_embed(bot, killmail):
             await channel.send(embed=embed)
         else:
             print(f"Channel with ID {TARGET_DISCORD_CHANNEL_ID} not found")
+        
+        log_time(start_time, killmail.get('killmail_id'))
 
 async def organize_killmail_data(killmail):
     esi_url = f"https://esi.evetech.net/latest/killmails/{killmail['killID']}/{killmail['hash']}/"
