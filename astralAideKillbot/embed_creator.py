@@ -1,9 +1,9 @@
 import discord
 from .api_request import *
-from .config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY
+from .config import TARGET_DISCORD_CHANNEL_ID, TARGET_ENTITY_ID, TARGET_ENTITY, CONCURRENT_TASK
 from .utils import * 
 
-semaphore = asyncio.Semaphore(5)  # Limit concurrent tasks
+semaphore = asyncio.Semaphore(CONCURRENT_TASK)  # Limit concurrent tasks
 
 async def send_killmail_embed(bot, killmail):
     print("\n\nhandling killmail")
