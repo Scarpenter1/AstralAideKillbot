@@ -37,7 +37,7 @@ async def send_killmail_embed(bot, killmail):
         dropped_value = format_currency(zkb_data.get('droppedValue', 0))
         destroyed_value = format_currency(zkb_data.get('destroyedValue', 0))
         total_value = format_currency(zkb_data.get('totalValue', 0))
-        is_loss = int(TARGET_ENTITY_ID) == victim.get("corporation_id") or int(TARGET_ENTITY_ID) == victim.get("alliance_id") and TARGET_ENTITY != 'corporation'
+        is_loss = int(TARGET_ENTITY_ID) == victim.get("corporation_id") or int(TARGET_ENTITY_ID) == victim.get("alliance_id")
 
         embed = discord.Embed(
             title=f"{solar_system_name} - ({round(sec_status, 1)})",
