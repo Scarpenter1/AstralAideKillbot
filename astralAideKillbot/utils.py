@@ -1,3 +1,5 @@
+import time
+
 def format_currency(value):
   try:
     value = float(value)
